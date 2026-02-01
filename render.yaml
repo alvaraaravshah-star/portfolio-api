@@ -3,7 +3,7 @@ services:
     name: macro-engine-api
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: "pip install --only-binary :all: -r requirements.txt"
     startCommand: "uvicorn api_server:app --host 0.0.0.0"
     envVars:
       - key: PYTHON_VERSION
