@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-01-23T18:45:56.990579Z",
+  "date": "01-04-2009",
+  "source": "pass3",
+  "active_regimes": [
+    "Weak_Growth"
+  ],
+  "regime_strength": {
+    "Weak_Growth": 1.0543474199014442
+  },
+  "factor_weights": {
+    "Value": 1.0,
+    "Quality": 0.0,
+    "Momentum": 0.0
+  }
+}

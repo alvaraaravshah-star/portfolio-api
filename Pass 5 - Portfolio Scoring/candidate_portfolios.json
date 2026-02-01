@@ -1,0 +1,17 @@
+{
+  "Defensive Portfolio": {
+    "Quality": 0.7,
+    "Value": 0.2,
+    "Momentum": 0.1
+  },
+  "Balanced Portfolio": {
+    "Quality": 0.4,
+    "Value": 0.4,
+    "Momentum": 0.2
+  },
+  "Growth Portfolio": {
+    "Quality": 0.2,
+    "Value": 0.3,
+    "Momentum": 0.5
+  }
+}

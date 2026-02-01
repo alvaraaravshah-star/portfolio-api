@@ -1,0 +1,9 @@
+{
+  "Value": ["VTV", "IVE"],
+  "Quality": ["QUAL", "SCHG"],
+  "Momentum": ["MTUM", "PDP"],
+  "LowVol": ["USMV", "SPLV"],
+  "Growth": ["VUG", "VBK"],
+  "Dividend": ["VYM", "SCHD"],
+  "Defensive": ["XLU", "XLP"]
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Macro Portfolio Engine</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📊 Macro Portfolio Engine</h1>
+            <p class="subtitle">AI-Driven Portfolio Recommendations Based on Historical Macro Conditions</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-wrapper">
+            <!-- Questionnaire Panel -->
+            <div id="questionnaire-panel" class="panel questionnaire-panel">
+                <h2>Portfolio Recommendation</h2>
+                
+                <div class="form-group">
+                    <label for="target-date">Select Target Date</label>
+                    <input type="date" id="target-date" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="investor-type">What's Your Investment Style?</label>
+                    <select id="investor-type" class="form-control">
+                        <option value="">-- Select --</option>
+                        <option value="Conservative">🛡️ Conservative (Low Risk)</option>
+                        <option value="Balanced">⚖️ Balanced (Moderate Risk)</option>
+                        <option value="Aggressive">🚀 Aggressive (High Risk)</option>
+                    </select>
+                </div>
+
+                <button id="run-button" class="btn btn-primary btn-lg">Get Recommendation →</button>
+            </div>
+
+            <!-- Results Panel -->
+            <div id="results-panel" class="panel results-panel hidden">
+                <h2>Your Personalized Portfolio Recommendation</h2>
+                
+                <!-- Pass 4 Results (Regime Detection) -->
+                <section class="result-section">
+                    <h3>📍 Current Market Regime</h3>
+                    <div id="regime-results" class="regime-box"></div>
+                </section>
+
+                <!-- Pass 5 Results (Portfolio Selection) -->
+                <section class="result-section">
+                    <h3>🎯 Recommended Portfolio</h3>
+                    <div id="portfolio-results" class="portfolio-box">
+                        <div id="portfolio-name" class="portfolio-name-display"></div>
+                        <div id="portfolio-scores" class="scores-display"></div>
+                        <div id="portfolio-allocation" class="allocation-display"></div>
+                    </div>
+                </section>
+
+                <!-- Pass 6 Results (Asset Construction) -->
+                <section class="result-section">
+                    <h3>💼 Asset-Level Allocation</h3>
+                    <div id="asset-results" class="asset-box">
+                        <div id="etf-allocation" class="etf-table"></div>
+                        <div id="etf-mapping" class="mapping-info"></div>
+                    </div>
+                </section>
+
+                <!-- Explainability -->
+                <section class="result-section">
+                    <h3>💡 Why This Portfolio?</h3>
+                    <div id="explanation" class="explanation-box"></div>
+                </section>
+
+                <button id="reset-button" class="btn btn-secondary btn-lg">← Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

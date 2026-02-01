@@ -1,0 +1,393 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    font-weight: 300;
+}
+
+/* Main Layout */
+.main-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* Panels */
+.panel {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.panel h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #667eea;
+}
+
+.panel h3 {
+    font-size: 1.3rem;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-section {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.form-hint {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    background: #f8f9ff;
+}
+
+/* Sliders */
+.slider-group {
+    margin: 20px 0;
+}
+
+.slider {
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+}
+
+.slider-group label span {
+    font-weight: 700;
+    color: #667eea;
+    margin-left: 10px;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #d0d0d0;
+}
+
+.btn-lg {
+    width: 100%;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+}
+
+/* Results Sections */
+.result-section {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.regime-box,
+.portfolio-box,
+.asset-box,
+.explanation-box {
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+/* Regime Display */
+.regime-tag {
+    display: inline-block;
+    background: #667eea;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin: 5px 5px 5px 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.regime-strength {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Portfolio Display */
+.portfolio-name-display {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.scores-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.score-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin-bottom: 5px;
+}
+
+.score-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.allocation-display {
+    margin-top: 15px;
+}
+
+.factor-allocation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.factor-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.factor-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.factor-weight {
+    font-size: 1.3rem;
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* ETF Table */
+.etf-table {
+    margin-top: 15px;
+}
+
+.etf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+}
+
+.etf-row:hover {
+    background: #f8f9fa;
+}
+
+.etf-symbol {
+    font-weight: 700;
+    color: #667eea;
+    font-size: 1.1rem;
+}
+
+.etf-weight {
+    color: #666;
+}
+
+.etf-weight .pct {
+    font-weight: 700;
+    color: #333;
+}
+
+.mapping-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #e8f0ff;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Explanation */
+.explanation-box {
+    line-height: 1.8;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.explanation-box p {
+    margin: 10px 0;
+}
+
+/* Hidden State */
+.hidden {
+    display: none !important;
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .main-wrapper {
+        grid-template-columns: 1fr;
+    }
+    
+    .scores-display {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .panel {
+        padding: 20px;
+    }
+    
+    .factor-allocation {
+        grid-template-columns: 1fr 1fr;
+    }
+}

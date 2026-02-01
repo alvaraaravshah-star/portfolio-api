@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-24T17:31:31.495752Z",
+    "investor_type": "Aggressive",
+    "source": "pass6",
+    "pass5_reference": "Balanced Portfolio"
+  },
+  "portfolio": {
+    "name": "Balanced Portfolio",
+    "assets": {
+      "VTV": 0.3,
+      "QUAL": 0.3,
+      "MTUM": 0.4
+    }
+  },
+  "explanation": {
+    "macro": "Macro conditions inform factor selection",
+    "investor": "Aggressive investors seek growth and momentum exposure; Portfolio avoids excessive Momentum exposure",
+    "construction": "This portfolio allocates 30.0% to Value via VTV because Value is favored under the current macro regime. This portfolio allocates 30.0% to Quality via QUAL because Quality is favored under the current macro regime. This portfolio allocates 40.0% to Momentum via MTUM because Momentum is favored under the current macro regime."
+  }
+}

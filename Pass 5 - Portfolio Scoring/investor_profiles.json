@@ -1,0 +1,17 @@
+{
+  "Conservative": {
+    "preferred_factors": ["Quality"],
+    "macro_weight": 0.5,
+    "investor_weight": 0.5
+  },
+  "Balanced": {
+    "preferred_factors": ["Quality", "Value"],
+    "macro_weight": 0.6,
+    "investor_weight": 0.4
+  },
+  "Aggressive": {
+    "preferred_factors": ["Momentum", "Value"],
+    "macro_weight": 0.7,
+    "investor_weight": 0.3
+  }
+}

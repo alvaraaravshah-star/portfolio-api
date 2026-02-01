@@ -1,0 +1,47 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-23T18:23:01Z",
+    "investor_type": "Aggressive",
+    "macro_source": "pass4",
+    "active_regimes": [
+      "Weak_Growth"
+    ]
+  },
+  "macro_factor_weights": {
+    "Value": 1.0,
+    "Quality": 0.0,
+    "Momentum": 0.0
+  },
+  "ranked_portfolios": [
+    {
+      "portfolio": "Balanced Portfolio",
+      "total_score": 0.46,
+      "macro_score": 0.4,
+      "investor_score": 0.6
+    },
+    {
+      "portfolio": "Growth Portfolio",
+      "total_score": 0.45,
+      "macro_score": 0.3,
+      "investor_score": 0.8
+    },
+    {
+      "portfolio": "Defensive Portfolio",
+      "total_score": 0.23,
+      "macro_score": 0.2,
+      "investor_score": 0.3
+    }
+  ],
+  "recommended_portfolio": {
+    "name": "Balanced Portfolio",
+    "confidence": 0.46
+  },
+  "explanation": {
+    "macro_reasoning": [],
+    "investor_reasoning": [
+      "Aggressive investors seek growth and momentum exposure",
+      "Portfolio avoids excessive Momentum exposure"
+    ],
+    "summary": "This portfolio aligns with current macro conditions while respecting the Aggressive investor's risk tolerance."
+  }
+}
