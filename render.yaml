@@ -1,10 +1,9 @@
 services:
   - type: web
     name: macro-engine-api
-    env: python
+    env: docker
     plan: free
-    buildCommand: "pip install --only-binary :all: -r requirements.txt"
-    startCommand: "uvicorn api_server:app --host 0.0.0.0"
+    dockerfilePath: Dockerfile
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
