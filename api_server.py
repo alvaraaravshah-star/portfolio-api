@@ -12,6 +12,7 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 # Initialize FastAPI app
@@ -19,6 +20,15 @@ app = FastAPI(
     title="Macro Engine API",
     description="API for regime-based portfolio construction",
     version="1.0.0"
+)
+
+# Add CORS middleware to allow frontend to call API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, set to specific domain: ["https://yourdomain.com"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Get base directory
