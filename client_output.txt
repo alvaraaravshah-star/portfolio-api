@@ -1,0 +1,155 @@
+/Users/aravshah/Documents/macro engine - interactive version/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+============================================================
+Macro Engine API Client - Example Usage
+============================================================
+
+1. Health Check
+------------------------------------------------------------
+{
+  "status": "healthy",
+  "timestamp": "2026-02-24T21:34:57.268556",
+  "data_files": {
+    "pass4": true,
+    "pass5": true,
+    "pass6": true
+  }
+}
+
+2. Available Dates (from Pass 4)
+------------------------------------------------------------
+{
+  "dates": [
+    "01-04-2009"
+  ],
+  "count": 1
+}
+
+3. Available Investor Types (from Pass 5)
+------------------------------------------------------------
+{
+  "investor_types": [
+    "Conservative",
+    "Balanced",
+    "Aggressive"
+  ],
+  "count": 3
+}
+
+4. Portfolio Recommendation
+   Target Date: 01-04-2009
+   Investor Type: Conservative
+------------------------------------------------------------
+{
+  "metadata": {
+    "generated_at": "2026-02-24T18:34:57.275894Z",
+    "requested_investor_type": "Conservative",
+    "target_date": "01-04-2009",
+    "selected_portfolio": "Defensive Portfolio",
+    "portfolio_score": 0.0
+  },
+  "portfolio": {
+    "name": "Defensive Portfolio",
+    "assets": {
+      "VTV": 1.0,
+      "QUAL": 0.0,
+      "MTUM": 0.0
+    },
+    "factor_weights": {
+      "Value": 1.0,
+      "Quality": 0.0,
+      "Momentum": 0.0
+    }
+  },
+  "portfolio_scores": {
+    "Defensive Portfolio": {
+      "macro_score": 0,
+      "investor_score": 0.0,
+      "composite_score": 0.0
+    },
+    "Balanced Portfolio": {
+      "macro_score": 0,
+      "investor_score": 0.0,
+      "composite_score": 0.0
+    },
+    "Growth Portfolio": {
+      "macro_score": 0,
+      "investor_score": 0.0,
+      "composite_score": 0.0
+    }
+  },
+  "explanation": {
+    "macro": "Macro regime has factor weights: {'Value': 1.0, 'Quality': 0.0, 'Momentum': 0.0}",
+    "investor": "Conservative investor prefers: Quality",
+    "construction": "Portfolio 'Defensive Portfolio' selected with composite score 0.000. Factors mapped to ETFs: {'Value': 'VTV', 'Quality': 'QUAL', 'Momentum': 'MTUM'}"
+  },
+  "regime_data": {
+    "date": "01-04-2009",
+    "active_regimes": [
+      "Weak_Growth"
+    ],
+    "regime_strength": {
+      "Weak_Growth": 1.0543474199014442
+    },
+    "factor_weights": {
+      "Value": 1.0,
+      "Quality": 0.0,
+      "Momentum": 0.0
+    }
+  },
+  "investor_profile": {
+    "preferred_factors": [
+      "Quality"
+    ],
+    "macro_weight": 0.5,
+    "investor_weight": 0.5
+  },
+  "factor_to_etf_mapping": {
+    "Value": "VTV",
+    "Quality": "QUAL",
+    "Momentum": "MTUM"
+  }
+}
+
+5. Regime Data (from Pass 4)
+------------------------------------------------------------
+{
+  "generated_at": "2026-01-23T18:45:56.990579Z",
+  "date": "01-04-2009",
+  "source": "pass3",
+  "active_regimes": [
+    "Weak_Growth"
+  ],
+  "regime_strength": {
+    "Weak_Growth": 1.0543474199014442
+  },
+  "factor_weights": {
+    "Value": 1.0,
+    "Quality": 0.0,
+    "Momentum": 0.0
+  }
+}
+
+6. Portfolio Execution (from Pass 6)
+------------------------------------------------------------
+{
+  "metadata": {
+    "generated_at": "2026-01-24T17:31:31.495752Z",
+    "investor_type": "Aggressive",
+    "source": "pass6",
+    "pass5_reference": "Balanced Portfolio"
+  },
+  "portfolio": {
+    "name": "Balanced Portfolio",
+    "assets": {
+      "VTV": 0.3,
+      "QUAL": 0.3,
+      "MTUM": 0.4
+    }
+  },
+  "explanation": {
+    "macro": "Macro conditions inform factor selection",
+    "investor": "Aggressive investors seek growth and momentum exposure; Portfolio avoids excessive Momentum exposure",
+    "construction": "This portfolio allocates 30.0% to Value via VTV because Value is favored under the current macro regime. This portfolio allocates 30.0% to Quality via QUAL because Quality is favored under the current macro regime. This portfolio allocates 40.0% to Momentum via MTUM because Momentum is favored under the current macro regime."
+  }
+}

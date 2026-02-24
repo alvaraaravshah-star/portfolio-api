@@ -8,6 +8,8 @@ import os
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+import subprocess
+import sys
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import JSONResponse
@@ -41,7 +43,8 @@ if WEB_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(WEB_DIR / "static")), name="static")
 
 # Define paths to data files
-PASS4_DATA_PATH = BASE_DIR / "Pass 4 - Regime Mapping" / "outputs" / "factor_tilt_latest.json"
+PASS4_DIR = BASE_DIR / "Pass 4 - Regime Mapping" / "outputs"
+PASS4_DATA_PATH = PASS4_DIR / "factor_tilt_latest.json"
 PASS5_DATA_PATH = BASE_DIR / "Pass 5 - Portfolio Scoring" / "investor_profiles.json"
 PASS6_DATA_PATH = BASE_DIR / "Pass 6 - Portfolio Construction" / "outputs" / "portfolio_execution_latest.json"
 
@@ -86,15 +89,98 @@ def load_json_file(filepath: Path) -> dict:
     with open(filepath, 'r') as f:
         return json.load(f)
 
+def _load_all_pass4_files() -> dict:
+    """Load all JSON files in the Pass 4 outputs dir keyed by their `date` field."""
+    results = {}
+    if not PASS4_DIR.exists():
+        return results
+    for p in PASS4_DIR.iterdir():
+        if p.suffix.lower() != ".json":
+            continue
+        try:
+            d = load_json_file(p)
+            date_key = d.get("date")
+            if date_key:
+                results[date_key] = d
+        except Exception:
+            # skip files that can't be parsed
+            continue
+    return results
+
+
 def get_available_dates() -> list[str]:
-    """Get list of available dates from Pass 4 outputs"""
-    # For now, we'll return the date from the latest file
-    # In production, you might want to scan a directory for multiple dates
+    """Get list of available dates from Pass 4 outputs by scanning files."""
+    data_map = _load_all_pass4_files()
+    if data_map:
+        # return sorted list for deterministic ordering
+        return sorted(list(data_map.keys()))
+    # fallback to single-file behavior
     try:
         data = load_json_file(PASS4_DATA_PATH)
         return [data.get("date", "01-04-2009")]
-    except:
+    except Exception:
         return ["01-04-2009"]
+
+
+def get_pass4_by_date(target_date: Optional[str]) -> dict:
+    """Return Pass 4 data matching `target_date`. If `target_date` is None, return the latest file (factor_tilt_latest.json) or the only available file."""
+    # Try to use a date-specific file from the outputs dir
+    data_map = _load_all_pass4_files()
+    if target_date:
+        if target_date in data_map:
+            return data_map[target_date]
+        # Attempt to generate Pass 4 file for requested date by running the mapper
+        mapper_script = PASS4_DIR / "pass4_regime_mapper.py"
+        if mapper_script.exists():
+            try:
+                # Normalize incoming date formats (accept DD/MM/YYYY or DD-MM-YYYY or YYYY-MM-DD)
+                td = target_date.replace('/', '-')
+                parsed_date = None
+                for fmt in ("%d-%m-%Y", "%Y-%d-%m", "%Y-%m-%d"):
+                    try:
+                        parsed_date = datetime.strptime(td, fmt)
+                        break
+                    except Exception:
+                        continue
+
+                if not parsed_date:
+                    # If parse failed, return clear error to client
+                    raise ValueError(f"target_date '{target_date}' is not in a supported format (expected DD-MM-YYYY or YYYY-MM-DD)")
+
+                # Ensure mapper receives DD-MM-YYYY
+                mapper_date_arg = parsed_date.strftime("%d-%m-%Y")
+
+                # Run the Pass 4 mapper with the normalized date
+                subprocess.run([
+                    sys.executable,
+                    str(mapper_script),
+                    mapper_date_arg
+                ], check=True, cwd=str(PASS4_DIR))
+                # reload data_map after generation
+                data_map = _load_all_pass4_files()
+                if target_date in data_map:
+                    return data_map[target_date]
+            except Exception as e:
+                # If generation fails, log and continue to fallback
+                print(f"Error generating Pass 4 for {target_date}: {e}")
+        # if generation didn't create the file, return an error informing the client
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"No Pass 4 data for requested date {target_date}. "
+                "Attempted to generate it via Pass 4 mapper but failed. "
+                "Ensure macro state exists for this date in Pass 2 (macro_data_scored.csv)."
+            )
+        )
+    # Fall back to the latest canonical file
+    try:
+        return load_json_file(PASS4_DATA_PATH)
+    except Exception:
+        # if that fails, try any loaded file
+        if data_map:
+            # return first available
+            return next(iter(data_map.values()))
+        raise HTTPException(status_code=404, detail="No Pass 4 data available")
 
 def get_available_investor_types() -> list[str]:
     """Get list of available investor types from Pass 5"""
@@ -162,7 +248,7 @@ async def get_recommendation(request: PortfolioRequest):
     """
     try:
         # Load all necessary data
-        pass4_data = load_json_file(PASS4_DATA_PATH)
+        pass4_data = get_pass4_by_date(request.target_date)
         pass5_data = load_json_file(PASS5_DATA_PATH)
         
         # Load Pass 5 candidate portfolios

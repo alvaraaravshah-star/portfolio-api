@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-02-24T18:41:00.000000Z",
+  "date": "02-04-2009",
+  "source": "pass3",
+  "active_regimes": [
+    "Transitioning"
+  ],
+  "regime_strength": {
+    "Transitioning": 0.523
+  },
+  "factor_weights": {
+    "Value": 0.2,
+    "Quality": 0.5,
+    "Momentum": 0.3
+  }
+}
