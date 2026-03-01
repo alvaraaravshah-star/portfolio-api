@@ -64,6 +64,7 @@ def index():
 @app.route('/api/config', methods=['GET'])
 def get_config():
     """Return configuration (dates, investor types, portfolio options, etc)."""
+    # available_dates are in YYYY-DD-MM format; frontend will convert to iso (YYYY-MM-DD)
     available_dates = p5.get_available_dates()
     return jsonify({
         "available_dates": available_dates,
@@ -79,7 +80,7 @@ def run_engine():
     
     Input JSON:
     {
-        "target_date": "2020-03-31",
+        "target_date": "2020-31-03",
         "investor_type": "Conservative"
     }
     """

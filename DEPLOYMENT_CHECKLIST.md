@@ -31,7 +31,7 @@
 ```bash
 curl -X POST http://localhost:10000/recommend/start \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009"}'
+  -d '{"target_date": "2009-01-04"}'
 ```
 - [ ] Response status 200
 - [ ] Response has "status": "success"
@@ -41,7 +41,7 @@ curl -X POST http://localhost:10000/recommend/start \
 ```bash
 curl -X POST http://localhost:10000/recommend/investor \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 ```
 - [ ] Response status 200
 - [ ] Response has "status": "success"
@@ -51,7 +51,7 @@ curl -X POST http://localhost:10000/recommend/investor \
 ```bash
 curl -X POST http://localhost:10000/recommend/final \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 ```
 - [ ] Response status 200
 - [ ] Response has "status": "success"
@@ -139,7 +139,7 @@ curl https://yourdomain.com/health
 ```bash
 curl -X POST https://yourdomain.com/recommend/start \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009"}'
+  -d '{"target_date": "2009-01-04"}'
 ```
 - [ ] Response status 200
 - [ ] No errors in server logs
@@ -252,7 +252,7 @@ If something goes wrong in production:
 |-------|-------|----------|
 | "No module named 'pandas'" | Missing dependency | `pip install -r requirements.txt` |
 | "Pass 4 did not generate output" | Script failure | Check subprocess logs, run script manually |
-| "Invalid date format" | Wrong format | Use DD-MM-YYYY (e.g., 01-04-2009) |
+| "Invalid date format" | Wrong format | Use YYYY-DD-MM (e.g., 2009-01-04) |
 | "Pass 5 fails after Pass 4" | Output file missing | Verify Pass 4 creates factor_tilt_latest.json |
 | "Connection refused" | Server not running | Start with `python api_server_refactored.py` |
 | "Timeout" | Subprocess takes too long | Increase timeout in services/pipeline.py |
@@ -300,17 +300,17 @@ curl http://localhost:10000/health
 # Test Pass 4
 curl -X POST http://localhost:10000/recommend/start \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009"}'
+  -d '{"target_date": "2009-01-04"}'
 
 # Test Pass 5
 curl -X POST http://localhost:10000/recommend/investor \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 
 # Test Pass 6
 curl -X POST http://localhost:10000/recommend/final \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 
 # Production (Gunicorn)
 gunicorn api_server_refactored:app \

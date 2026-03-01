@@ -20,7 +20,7 @@ Macro Engine API Client - Example Usage
 ------------------------------------------------------------
 {
   "dates": [
-    "01-04-2009"
+    "2009-01-04"
   ],
   "count": 1
 }
@@ -37,14 +37,14 @@ Macro Engine API Client - Example Usage
 }
 
 4. Portfolio Recommendation
-   Target Date: 01-04-2009
+   Target Date: 2009-01-04
    Investor Type: Conservative
 ------------------------------------------------------------
 {
   "metadata": {
     "generated_at": "2026-02-24T18:34:57.275894Z",
     "requested_investor_type": "Conservative",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "selected_portfolio": "Defensive Portfolio",
     "portfolio_score": 0.0
   },
@@ -84,7 +84,7 @@ Macro Engine API Client - Example Usage
     "construction": "Portfolio 'Defensive Portfolio' selected with composite score 0.000. Factors mapped to ETFs: {'Value': 'VTV', 'Quality': 'QUAL', 'Momentum': 'MTUM'}"
   },
   "regime_data": {
-    "date": "01-04-2009",
+    "date": "2009-01-04",
     "active_regimes": [
       "Weak_Growth"
     ],
@@ -115,7 +115,7 @@ Macro Engine API Client - Example Usage
 ------------------------------------------------------------
 {
   "generated_at": "2026-01-23T18:45:56.990579Z",
-  "date": "01-04-2009",
+  "date": "2009-01-04",
   "source": "pass3",
   "active_regimes": [
     "Weak_Growth"

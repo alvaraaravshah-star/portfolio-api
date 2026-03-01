@@ -180,7 +180,7 @@ async def pipeline_docs():
                     "stage": "Pass 4",
                     "name": "Regime Mapping",
                     "endpoint": "POST /recommend/start",
-                    "input": {"target_date": "DD-MM-YYYY"},
+                    "input": {"target_date": "YYYY-DD-MM"},
                     "output": "Regime detection and factor tilts",
                     "description": "Analyzes market conditions and detects active regimes"
                 },
@@ -188,7 +188,7 @@ async def pipeline_docs():
                     "stage": "Pass 5",
                     "name": "Investor Allocation",
                     "endpoint": "POST /recommend/investor",
-                    "input": {"target_date": "DD-MM-YYYY", "investor_type": "Conservative|Balanced|Aggressive"},
+                    "input": {"target_date": "YYYY-DD-MM", "investor_type": "Conservative|Balanced|Aggressive"},
                     "output": "Investor-specific portfolio allocation",
                     "description": "Allocates portfolio based on regime and investor profile",
                     "requires": "Pass 4 output"
@@ -197,16 +197,16 @@ async def pipeline_docs():
                     "stage": "Pass 6",
                     "name": "Portfolio Construction",
                     "endpoint": "POST /recommend/final",
-                    "input": {"target_date": "DD-MM-YYYY", "investor_type": "Conservative|Balanced|Aggressive"},
+                    "input": {"target_date": "YYYY-DD-MM", "investor_type": "Conservative|Balanced|Aggressive"},
                     "output": "Final portfolio execution plan",
                     "description": "Constructs final portfolio with asset-level allocations",
                     "requires": "Pass 5 output"
                 }
             ],
             "example_flow": [
-                "POST /recommend/start with target_date='01-04-2009'",
-                "POST /recommend/investor with target_date='01-04-2009' and investor_type='Balanced'",
-                "POST /recommend/final with target_date='01-04-2009' and investor_type='Balanced'"
+                "POST /recommend/start with target_date='2009-01-04'",
+                "POST /recommend/investor with target_date='2009-01-04' and investor_type='Balanced'",
+                "POST /recommend/final with target_date='2009-01-04' and investor_type='Balanced'"
             ]
         }
     )

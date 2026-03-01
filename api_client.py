@@ -32,7 +32,7 @@ class MacroEngineClient:
         Get portfolio recommendation
         
         Args:
-            target_date: Date string (e.g., '01-04-2009')
+            target_date: Date string (e.g., '2009-01-04')
             investor_type: One of Conservative, Balanced, Aggressive
         
         Returns:

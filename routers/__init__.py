@@ -31,7 +31,7 @@ class RecommendStartRequest(BaseModel):
     """Request for starting Pass 4 (Regime Mapping)."""
     target_date: str = Field(
         ...,
-        description="Target date in DD-MM-YYYY format (e.g., '01-04-2009')"
+        description="Target date in YYYY-DD-MM format (e.g., '2009-01-04')"
     )
 
 
@@ -48,7 +48,7 @@ class RecommendInvestorRequest(BaseModel):
     """Request for Pass 5 (Investor Allocation)."""
     target_date: str = Field(
         ...,
-        description="Target date in DD-MM-YYYY format (e.g., '01-04-2009')"
+        description="Target date in YYYY-DD-MM format (e.g., '2009-01-04')"
     )
     investor_type: str = Field(
         ...,
@@ -70,7 +70,7 @@ class RecommendFinalRequest(BaseModel):
     """Request for Pass 6 (Final Output)."""
     target_date: str = Field(
         ...,
-        description="Target date in DD-MM-YYYY format (e.g., '01-04-2009')"
+        description="Target date in YYYY-DD-MM format (e.g., '2009-01-04')"
     )
     investor_type: str = Field(
         ...,

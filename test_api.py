@@ -23,7 +23,7 @@ import requests
 
 # Configuration
 BASE_URL = "http://localhost:10000"
-TEST_DATE = "01-04-2009"
+TEST_DATE = "2009-01-04"
 INVESTOR_TYPES = ["Conservative", "Balanced", "Aggressive"]
 
 
@@ -212,10 +212,10 @@ def test_validation_errors():
     """Test validation error handling."""
     print_section("Validation Error Handling")
     
-    # Invalid date format
+    # Invalid date format (not a date)
     response = requests.post(
         f"{BASE_URL}/recommend/start",
-        json={"target_date": "2009-04-01"}
+        json={"target_date": "invalid-date"}
     )
     print_test(
         "Invalid date format rejection",
@@ -226,7 +226,7 @@ def test_validation_errors():
     # Invalid investor type
     response = requests.post(
         f"{BASE_URL}/recommend/investor",
-        json={"target_date": "01-04-2009", "investor_type": "InvalidType"}
+        json={"target_date": "2009-01-04", "investor_type": "InvalidType"}
     )
     print_test(
         "Invalid investor type rejection",

@@ -16,13 +16,14 @@ def load_macro_factor_weights():
 def load_macro_data():
     """Load macro data CSV and return as DataFrame."""
     df = pd.read_csv(str(MACRO_DATA_PATH))
-    df['DATE'] = pd.to_datetime(df['DATE'])
+    # CSV dates now stored as YYYY-DD-MM
+    df['DATE'] = pd.to_datetime(df['DATE'], format='%Y-%d-%m')
     return df
 
 def get_available_dates():
     """Get list of available dates from macro data."""
     df = load_macro_data()
-    dates = sorted(df['DATE'].dt.strftime('%Y-%m-%d').tolist())
+    dates = sorted(df['DATE'].dt.strftime('%Y-%d-%m').tolist())
     return dates
 
 def get_macro_conditions_for_date(target_date):
@@ -31,7 +32,8 @@ def get_macro_conditions_for_date(target_date):
     Returns dict with inflation_score, growth_score, macro_score.
     """
     df = load_macro_data()
-    target_date = pd.to_datetime(target_date)
+    # expect target_date passed as YYYY-DD-MM
+    target_date = pd.to_datetime(target_date, format='%Y-%d-%m')
     
     # Find closest date in data
     df['date_diff'] = (df['DATE'] - target_date).abs()
@@ -52,7 +54,7 @@ def get_macro_conditions_for_date(target_date):
         "inflation_score": inflation_score,
         "growth_score": growth_score,
         "macro_score": macro_score,
-        "date_used": closest_row['DATE'].strftime("%Y-%m-%d")
+        "date_used": closest_row['DATE'].strftime("%Y-%d-%m")
     }
 
 def prompt_target_date(available_dates):
@@ -62,7 +64,7 @@ def prompt_target_date(available_dates):
     print("="*50)
     print("\nAvailable dates range from:")
     print(f"  {available_dates[0]} to {available_dates[-1]}")
-    print("\nEnter a date (YYYY-MM-DD):")
+    print("\nEnter a date (YYYY-DD-MM):")
     
     while True:
         date_input = input("Target date: ").strip()
@@ -82,7 +84,7 @@ def prompt_target_date(available_dates):
         except:
             pass
         
-        print(f"Invalid date. Please use format YYYY-MM-DD.\n")
+        print(f"Invalid date. Please use format YYYY-DD-MM.\n")
 
 def get_timestamp():
     return datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")

@@ -15,7 +15,7 @@ class ValidationError(Exception):
 
 def validate_date_format(date_str: str) -> bool:
     """
-    Validate that the date string is in DD-MM-YYYY format.
+    Validate that the date string is in YYYY-DD-MM format.
     
     Args:
         date_str: Date string to validate
@@ -26,12 +26,13 @@ def validate_date_format(date_str: str) -> bool:
     if not isinstance(date_str, str):
         return False
     
-    pattern = r"^\d{2}-\d{2}-\d{4}$"
+    # expect four-digit year, two-digit day, two-digit month
+    pattern = r"^\d{4}-\d{2}-\d{2}$"
     if not re.match(pattern, date_str):
         return False
     
     try:
-        datetime.strptime(date_str, "%d-%m-%Y")
+        datetime.strptime(date_str, "%Y-%d-%m")
         return True
     except ValueError:
         return False
@@ -56,7 +57,7 @@ def validate_recommendation_request(target_date: str, investor_type: str) -> Tup
     Validate a complete recommendation request.
     
     Args:
-        target_date: Target date in DD-MM-YYYY format
+        target_date: Target date in YYYY-DD-MM format
         investor_type: Investor type
     
     Returns:
@@ -66,7 +67,7 @@ def validate_recommendation_request(target_date: str, investor_type: str) -> Tup
         return False, "target_date is required"
     
     if not validate_date_format(target_date):
-        return False, f"Invalid date format: {target_date}. Expected DD-MM-YYYY (e.g., 01-04-2009)"
+        return False, f"Invalid date format: {target_date}. Expected YYYY-DD-MM (e.g., 2009-01-04)"
     
     if not investor_type:
         return False, "investor_type is required"

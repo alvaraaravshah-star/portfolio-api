@@ -37,7 +37,7 @@ This document visualizes the refactored architecture and data flow.
 │  ┌──────────────────────────────────────────────────────────────────┐   │
 │  │ Validation Layer (services/validation.py)                        │   │
 │  │                                                                   │   │
-│  │  • validate_date_format() - Check DD-MM-YYYY format             │   │
+│  │  • validate_date_format() - Check YYYY-DD-MM format             │   │
 │  │  • validate_investor_type() - Check Conservative/Balanced/...   │   │
 │  │  • validate_recommendation_request() - Full validation           │   │
 │  └──────────────────────────────────────────────────────────────────┘   │
@@ -61,7 +61,7 @@ This document visualizes the refactored architecture and data flow.
 │  │ PASS 4: Regime Mapping                                           │   │
 │  │ (Pass 4 - Regime Mapping/outputs/pass4_regime_mapper.py)        │   │
 │  │                                                                   │   │
-│  │ Input:   target_date (DD-MM-YYYY)                               │   │
+│  │ Input:   target_date (YYYY-DD-MM)                               │   │
 │  │ Reads:   macro_data_scored.csv                                  │   │
 │  │ Outputs: factor_tilt_latest.json                                │   │
 │  │ Purpose: Detect regimes, generate factor weights                │   │
@@ -114,15 +114,15 @@ STAGE 1: POST /recommend/start
 
 Client Request:
   {
-    "target_date": "01-04-2009"
+    "target_date": "2009-01-04"
   }
         ↓
 Validation:
-  ✓ Is target_date in DD-MM-YYYY format?
+  ✓ Is target_date in YYYY-DD-MM format?
         ↓
 Pipeline Service:
-  • run_pass4("01-04-2009")
-  • Execute: python pass4_regime_mapper.py --target-date 01-04-2009
+  • run_pass4("2009-01-04")
+  • Execute: python pass4_regime_mapper.py --target-date 2009-01-04
   • Capture stdout, stderr, exit_code
   • Load factor_tilt_latest.json
         ↓
@@ -130,10 +130,10 @@ Response (200 OK):
   {
     "status": "success",
     "stage": "pass4",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "message": "Pass 4 (Regime Mapping) completed successfully.",
     "data": {
-      "date": "01-04-2009",
+      "date": "2009-01-04",
       "active_regimes": ["High_Inflation", "Weak_Growth"],
       "factor_weights": {
         "Value": 0.4,
@@ -145,7 +145,7 @@ Response (200 OK):
 
 Error Response (400 Bad Request):
   {
-    "detail": "Invalid date format: 2009-04-01. Expected DD-MM-YYYY"
+    "detail": "Invalid date format: 2009-04-01. Expected YYYY-DD-MM"
   }
 
 
@@ -154,17 +154,17 @@ STAGE 2: POST /recommend/investor
 
 Client Request:
   {
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }
         ↓
 Validation:
-  ✓ Is target_date in DD-MM-YYYY format?
+  ✓ Is target_date in YYYY-DD-MM format?
   ✓ Is investor_type one of: Conservative, Balanced, Aggressive?
         ↓
 Pipeline Service:
-  • run_pass5("01-04-2009", "Balanced")
-  • Execute: python pass5_portfolioscorer.py --target-date 01-04-2009 --investor-type Balanced
+  • run_pass5("2009-01-04", "Balanced")
+  • Execute: python pass5_portfolioscorer.py --target-date 2009-01-04 --investor-type Balanced
   • Capture stdout, stderr, exit_code
   • Load portfolio_recommendation_latest.json
         ↓
@@ -172,7 +172,7 @@ Response (200 OK):
   {
     "status": "success",
     "stage": "pass5",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 5 (Investor Allocation) completed successfully.",
     "data": {
@@ -196,17 +196,17 @@ STAGE 3: POST /recommend/final
 
 Client Request:
   {
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }
         ↓
 Validation:
-  ✓ Is target_date in DD-MM-YYYY format?
+  ✓ Is target_date in YYYY-DD-MM format?
   ✓ Is investor_type one of: Conservative, Balanced, Aggressive?
         ↓
 Pipeline Service:
-  • run_pass6("01-04-2009", "Balanced")
-  • Execute: python pass6_portfolio_constructor.py --target-date 01-04-2009 --investor-type Balanced
+  • run_pass6("2009-01-04", "Balanced")
+  • Execute: python pass6_portfolio_constructor.py --target-date 2009-01-04 --investor-type Balanced
   • Capture stdout, stderr, exit_code
   • Load portfolio_execution_latest.json
         ↓
@@ -214,7 +214,7 @@ Response (200 OK):
   {
     "status": "success",
     "stage": "pass6",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 6 (Portfolio Construction) completed successfully.",
     "data": {

@@ -35,7 +35,10 @@ print(f"  {regime_map}")
 print(f"\n[PASS 2 MACRO DATA]")
 print(f"Loading: {PASS2_PATH}")
 df_macro = pd.read_csv(PASS2_PATH)
-df_macro['DATE'] = pd.to_datetime(df_macro['DATE'])
+# PASS2 dates now stored as YYYY-DD-MM
+
+df_macro['DATE'] = pd.to_datetime(df_macro['DATE'], format='%Y-%d-%m')
+
 latest = df_macro.sort_values('DATE').iloc[-1]
 
 print(f"\nLatest Macro State ({latest['DATE'].strftime('%Y-%m')}):")

@@ -62,19 +62,19 @@ routers/recommendations.py (API Endpoints)
 
 Stage 1: Pass 4 - Regime Mapping
   POST /recommend/start
-  Input:  {"target_date": "DD-MM-YYYY"}
+  Input:  {"target_date": "YYYY-DD-MM"}
   Output: Regime detection + factor tilts
   Dependencies: None
 
 Stage 2: Pass 5 - Investor Allocation
   POST /recommend/investor
-  Input:  {"target_date": "DD-MM-YYYY", "investor_type": "Balanced"}
+  Input:  {"target_date": "YYYY-DD-MM", "investor_type": "Balanced"}
   Output: Investor-specific allocation
   Dependencies: Pass 4 output
 
 Stage 3: Pass 6 - Portfolio Construction
   POST /recommend/final
-  Input:  {"target_date": "DD-MM-YYYY", "investor_type": "Balanced"}
+  Input:  {"target_date": "YYYY-DD-MM", "investor_type": "Balanced"}
   Output: Final portfolio execution plan
   Dependencies: Pass 5 output
 
@@ -117,7 +117,7 @@ Documentation:
 4. Try an endpoint:
    curl -X POST http://localhost:10000/recommend/start \
      -H "Content-Type: application/json" \
-     -d '{"target_date": "01-04-2009"}'
+     -d '{"target_date": "2009-01-04"}'
 
 
 ✨ KEY IMPROVEMENTS
@@ -227,7 +227,7 @@ Questions? Errors? Debugging Tips?
    - DEPLOYMENT_CHECKLIST.md for deployment issues
 
 3. Test manually:
-   python "Pass 4 - .../pass4_regime_mapper.py" --target-date 01-04-2009
+   python "Pass 4 - .../pass4_regime_mapper.py" --target-date 2009-01-04
 
 4. Review error messages:
    They're now specific and helpful!

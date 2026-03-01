@@ -198,7 +198,7 @@ curl https://macro-engine-api.onrender.com/available-dates
 **Expected response:**
 ```json
 {
-  "dates": ["01-04-2009"],
+  "dates": ["2009-01-04"],
   "count": 1
 }
 ```
@@ -207,7 +207,7 @@ curl https://macro-engine-api.onrender.com/available-dates
 ```bash
 curl -X POST https://macro-engine-api.onrender.com/recommend \
   -H "Content-Type: application/json" \
-  -d '{"target_date":"01-04-2009","investor_type":"Conservative"}'
+  -d '{"target_date":"2009-01-04","investor_type":"Conservative"}'
 ```
 
 **Expected response:** Full portfolio recommendation JSON
@@ -224,7 +224,7 @@ https://macro-engine-api.onrender.com/web/simple.html
 ```
 
 **You should see:**
-- Dropdown with target date (01-04-2009)
+- Dropdown with target date (2009-01-04)
 - Dropdown with investor types (Conservative, Balanced, Aggressive)
 - "Get Recommendation" button
 
@@ -348,7 +348,7 @@ curl -s https://macro-engine-api.onrender.com/web/simple.html | head -5
 # 4. Test full API call
 curl -X POST https://macro-engine-api.onrender.com/recommend \
   -H "Content-Type: application/json" \
-  -d '{"target_date":"01-04-2009","investor_type":"Balanced"}'
+  -d '{"target_date":"2009-01-04","investor_type":"Balanced"}'
 ```
 
 **All should return 200 status codes and JSON responses.**

@@ -132,17 +132,17 @@ python test_api.py
 # Stage 1: Regime Mapping
 curl -X POST http://localhost:10000/recommend/start \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009"}'
+  -d '{"target_date": "2009-01-04"}'
 
 # Stage 2: Investor Allocation
 curl -X POST http://localhost:10000/recommend/investor \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 
 # Stage 3: Portfolio Construction
 curl -X POST http://localhost:10000/recommend/final \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+  -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 ```
 
 ### Dependencies Fixed

@@ -89,7 +89,7 @@ curl http://localhost:8000/available-investor-types
 # Get recommendation
 curl -X POST http://localhost:8000/recommend \
   -H "Content-Type: application/json" \
-  -d '{"target_date":"01-04-2009","investor_type":"Conservative"}'
+  -d '{"target_date":"2009-01-04","investor_type":"Conservative"}'
 ```
 
 ---
@@ -206,7 +206,7 @@ curl ${SERVICE_URL}/health
 # Test recommendation endpoint
 curl -X POST ${SERVICE_URL}/recommend \
   -H "Content-Type: application/json" \
-  -d '{"target_date":"01-04-2009","investor_type":"Conservative"}'
+  -d '{"target_date":"2009-01-04","investor_type":"Conservative"}'
 
 # Open web app in browser
 open "${SERVICE_URL}/web/simple.html"

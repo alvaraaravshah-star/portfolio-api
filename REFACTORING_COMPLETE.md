@@ -95,7 +95,7 @@ Your FastAPI backend has been refactored from a monolithic structure into a clea
 ### Stage 1: Pass 4 - Regime Mapping
 ```
 POST /recommend/start
-Input:  { "target_date": "DD-MM-YYYY" }
+Input:  { "target_date": "YYYY-DD-MM" }
 Output: { "status": "success", "stage": "pass4", "data": {...} }
 Purpose: Detect market regimes and generate factor tilts
 ```
@@ -103,7 +103,7 @@ Purpose: Detect market regimes and generate factor tilts
 ### Stage 2: Pass 5 - Investor Allocation
 ```
 POST /recommend/investor
-Input:  { "target_date": "DD-MM-YYYY", "investor_type": "Balanced" }
+Input:  { "target_date": "YYYY-DD-MM", "investor_type": "Balanced" }
 Output: { "status": "success", "stage": "pass5", "data": {...} }
 Purpose: Allocate portfolio based on investor profile
 Depends: Pass 4 output (factor_tilt_latest.json)
@@ -112,7 +112,7 @@ Depends: Pass 4 output (factor_tilt_latest.json)
 ### Stage 3: Pass 6 - Portfolio Construction
 ```
 POST /recommend/final
-Input:  { "target_date": "DD-MM-YYYY", "investor_type": "Balanced" }
+Input:  { "target_date": "YYYY-DD-MM", "investor_type": "Balanced" }
 Output: { "status": "success", "stage": "pass6", "data": {...} }
 Purpose: Construct final portfolio with asset allocations
 Depends: Pass 5 output (portfolio_recommendation_latest.json)
@@ -192,14 +192,14 @@ import requests
 # Stage 1: Regime Mapping
 r1 = requests.post(
     "http://localhost:10000/recommend/start",
-    json={"target_date": "01-04-2009"}
+    json={"target_date": "2009-01-04"}
 )
 
 # Stage 2: Investor Allocation
 r2 = requests.post(
     "http://localhost:10000/recommend/investor",
     json={
-        "target_date": "01-04-2009",
+        "target_date": "2009-01-04",
         "investor_type": "Balanced"
     }
 )
@@ -208,7 +208,7 @@ r2 = requests.post(
 r3 = requests.post(
     "http://localhost:10000/recommend/final",
     json={
-        "target_date": "01-04-2009",
+        "target_date": "2009-01-04",
         "investor_type": "Balanced"
     }
 )
@@ -328,7 +328,7 @@ tail -f logs/api.log
 ### Test Pass Scripts Manually
 ```bash
 cd "Pass 4 - Regime Mapping/outputs"
-python pass4_regime_mapper.py --target-date 01-04-2009
+python pass4_regime_mapper.py --target-date 2009-01-04
 ```
 
 ### Common Issues
@@ -336,7 +336,7 @@ python pass4_regime_mapper.py --target-date 01-04-2009
 | Issue | Solution |
 |-------|----------|
 | No module named 'pandas' | `pip install -r requirements.txt` |
-| Invalid date format | Use DD-MM-YYYY format (e.g., 01-04-2009) |
+| Invalid date format | Use YYYY-DD-MM format (e.g., 2009-01-04) |
 | Pass 4 fails | Check subprocess output in logs |
 | Pass 5/6 fails | Verify Pass 4 output file exists |
 

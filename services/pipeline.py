@@ -100,7 +100,7 @@ def run_pass4(target_date: str) -> Dict[str, Any]:
     Execute Pass 4 (Regime Mapping).
     
     Args:
-        target_date: Target date in DD-MM-YYYY format
+        target_date: Target date in YYYY-DD-MM format
     
     Returns:
         Dict containing regime mapping results
@@ -149,7 +149,7 @@ def run_pass5(target_date: str, investor_type: str) -> Dict[str, Any]:
     Execute Pass 5 (Investor Allocation).
     
     Args:
-        target_date: Target date in DD-MM-YYYY format
+        target_date: Target date in YYYY-DD-MM format
         investor_type: Investor profile type (e.g., "Conservative", "Balanced", "Aggressive")
     
     Returns:
@@ -199,7 +199,7 @@ def run_pass6(target_date: str, investor_type: str) -> Dict[str, Any]:
     Execute Pass 6 (Final Output Generation).
     
     Args:
-        target_date: Target date in DD-MM-YYYY format
+        target_date: Target date in YYYY-DD-MM format
         investor_type: Investor profile type (e.g., "Conservative", "Balanced", "Aggressive")
     
     Returns:

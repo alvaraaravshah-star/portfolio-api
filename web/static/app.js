@@ -34,9 +34,15 @@ async function loadConfig() {
         // Set date input to first available date
         if (appState.config.available_dates && appState.config.available_dates.length > 0) {
             const targetDateInput = document.getElementById('target-date');
-            targetDateInput.min = appState.config.available_dates[0];
-            targetDateInput.max = appState.config.available_dates[appState.config.available_dates.length - 1];
-            targetDateInput.value = appState.config.available_dates[appState.config.available_dates.length - 1]; // Default to latest
+            // available_dates are stored as YYYY-DD-MM, but <input type="date"> expects YYYY-MM-DD
+            const isoDates = appState.config.available_dates.map(d => {
+                const parts = d.split('-');
+                // parts = [year, day, month]
+                return `${parts[0]}-${parts[2]}-${parts[1]}`;
+            });
+            targetDateInput.min = isoDates[0];
+            targetDateInput.max = isoDates[isoDates.length - 1];
+            targetDateInput.value = isoDates[isoDates.length - 1]; // Default to latest
         }
     } catch (error) {
         console.error('Failed to load config:', error);
@@ -66,13 +72,16 @@ async function runEngine() {
     runButton.textContent = 'Processing...';
     
     try {
+        const tdparts = targetDate.split('-');
+        const normalizedDate = `${tdparts[0]}-${tdparts[2]}-${tdparts[1]}`;
+
         const response = await fetch('/api/run-engine', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                target_date: targetDate,
+                target_date: normalizedDate,
                 investor_type: investorType
             })
         });

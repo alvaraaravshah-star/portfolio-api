@@ -206,7 +206,7 @@ ORIGINAL API (api_server.py):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 GET /available-dates
-  Response: ["01-04-2009", "02-05-2010", ...]
+  Response: ["2009-01-04", "2010-02-05", ...]
 
 POST /recommend
   Input: {"target_date": "...", "investor_type": "..."}
@@ -258,7 +258,7 @@ After:
   {
     "status": "success",
     "stage": "pass6",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "...",
     "data": {
@@ -336,7 +336,7 @@ AFTER REFACTORING:
   pip install -r requirements.txt
 
 □ Check Pass 4, 5, 6 scripts work:
-  python Pass\ 4.../pass4_regime_mapper.py --target-date 01-04-2009
+  python Pass\ 4.../pass4_regime_mapper.py --target-date 2009-01-04
 
 □ Ensure output directories exist:
   Pass 4 - Regime Mapping/outputs/
@@ -377,7 +377,7 @@ If something goes wrong with the refactored version:
    - Check logs/api.log for detailed errors
    - Run Pass scripts manually:
      cd "Pass 4 - Regime Mapping/outputs"
-     python pass4_regime_mapper.py --target-date 01-04-2009
+     python pass4_regime_mapper.py --target-date 2009-01-04
    - Verify output files exist
    
 3. Common Issues & Solutions:
@@ -388,7 +388,7 @@ If something goes wrong with the refactored version:
       → Check Pass 4 script output manually
       
    c) "Invalid date format"
-      → Use DD-MM-YYYY format (e.g., 01-04-2009)
+      → Use YYYY-DD-MM format (e.g., 2009-01-04)
       
    d) "Connection refused"
       → API server not running, start with:

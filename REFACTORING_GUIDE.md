@@ -20,20 +20,20 @@ This guide explains the new three-stage pipeline architecture.
    Stage 1 - Regime Mapping:
    POST http://localhost:10000/recommend/start
    {
-     "target_date": "01-04-2009"
+     "target_date": "2009-01-04"
    }
    
    Stage 2 - Investor Allocation:
    POST http://localhost:10000/recommend/investor
    {
-     "target_date": "01-04-2009",
+     "target_date": "2009-01-04",
      "investor_type": "Balanced"
    }
    
    Stage 3 - Portfolio Construction:
    POST http://localhost:10000/recommend/final
    {
-     "target_date": "01-04-2009",
+     "target_date": "2009-01-04",
      "investor_type": "Balanced"
    }
 """
@@ -72,7 +72,7 @@ KEY FEATURES:
 STAGE 1: PASS 4 - REGIME MAPPING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Endpoint:     POST /recommend/start
-Input:        { "target_date": "DD-MM-YYYY" }
+Input:        { "target_date": "YYYY-DD-MM" }
 Output:       Regime detection + factor tilts
 Depends On:   None
 Execution:    Runs Pass 4 - Regime Mapping script
@@ -80,16 +80,16 @@ Purpose:      Detect active market regimes and generate factor weights
 
 Example:
   POST /recommend/start
-  { "target_date": "01-04-2009" }
+  { "target_date": "2009-01-04" }
   
   Response:
   {
     "status": "success",
     "stage": "pass4",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "message": "Pass 4 completed...",
     "data": {
-      "date": "01-04-2009",
+      "date": "2009-01-04",
       "active_regimes": ["High_Inflation", "Weak_Growth"],
       "factor_weights": {...}
     }
@@ -99,7 +99,7 @@ Example:
 STAGE 2: PASS 5 - INVESTOR ALLOCATION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Endpoint:     POST /recommend/investor
-Input:        { "target_date": "DD-MM-YYYY", "investor_type": "..." }
+Input:        { "target_date": "YYYY-DD-MM", "investor_type": "..." }
 Output:       Investor-specific portfolio allocation
 Depends On:   Pass 4 (uses factor_tilt_latest.json)
 Execution:    Runs Pass 5 - Investor Allocator script
@@ -113,7 +113,7 @@ Investor Types:
 Example:
   POST /recommend/investor
   {
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }
   
@@ -121,7 +121,7 @@ Example:
   {
     "status": "success",
     "stage": "pass5",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 5 completed...",
     "data": {
@@ -134,7 +134,7 @@ Example:
 STAGE 3: PASS 6 - PORTFOLIO CONSTRUCTION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Endpoint:     POST /recommend/final
-Input:        { "target_date": "DD-MM-YYYY", "investor_type": "..." }
+Input:        { "target_date": "YYYY-DD-MM", "investor_type": "..." }
 Output:       Final portfolio with asset-level allocations
 Depends On:   Pass 5 (uses portfolio_recommendation_latest.json)
 Execution:    Runs Pass 6 - Portfolio Constructor script
@@ -143,7 +143,7 @@ Purpose:      Construct final execution-ready portfolio
 Example:
   POST /recommend/final
   {
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }
   
@@ -151,7 +151,7 @@ Example:
   {
     "status": "success",
     "stage": "pass6",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 6 completed...",
     "data": {
@@ -214,7 +214,7 @@ HTTP Status Codes & Responses:
   
   Example:
   {
-    "detail": "Invalid date format: 01/04/2009. Expected DD-MM-YYYY"
+    "detail": "Invalid date format: 01/04/2009. Expected YYYY-DD-MM"
   }
 
 500 Internal Server Error
@@ -242,17 +242,17 @@ USING CURL:
 1. Start regime mapping:
    curl -X POST http://localhost:10000/recommend/start \
      -H "Content-Type: application/json" \
-     -d '{"target_date": "01-04-2009"}'
+     -d '{"target_date": "2009-01-04"}'
 
 2. Allocate investor portfolio:
    curl -X POST http://localhost:10000/recommend/investor \
      -H "Content-Type: application/json" \
-     -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+     -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 
 3. Get final portfolio:
    curl -X POST http://localhost:10000/recommend/final \
      -H "Content-Type: application/json" \
-     -d '{"target_date": "01-04-2009", "investor_type": "Balanced"}'
+     -d '{"target_date": "2009-01-04", "investor_type": "Balanced"}'
 
 USING PYTHON:
    See test_api.py for complete integration tests
@@ -330,7 +330,7 @@ SOLUTION: Check if the Pass 4 script expects arguments or environment variables
           Inspect logs for Pass 4 subprocess errors
 
 ISSUE: "Invalid date format"
-SOLUTION: Ensure date is in DD-MM-YYYY format, e.g., "01-04-2009"
+SOLUTION: Ensure date is in YYYY-DD-MM format, e.g., "2009-01-04"
           Check that the date exists in your data
 
 ISSUE: "Pass 5/6 fails after Pass 4 succeeds"
@@ -343,7 +343,7 @@ DEBUGGING:
   2. Check logs/api.log for detailed subprocess output
   3. Run Pass scripts manually to test:
      python Pass\ 4\ -\ Regime\ Mapping/outputs/pass4_regime_mapper.py \
-       --target-date 01-04-2009
+       --target-date 2009-01-04
 """
 
 print(__doc__)

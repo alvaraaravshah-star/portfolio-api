@@ -106,17 +106,17 @@ Executes Pass 4: Regime Mapping
 
 Input:
   {
-    "target_date": "DD-MM-YYYY"  (required)
+    "target_date": "YYYY-DD-MM"  (required)
   }
 
 Output (200 OK):
   {
     "status": "success",
     "stage": "pass4",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "message": "Pass 4 (Regime Mapping) completed successfully...",
     "data": {
-      "date": "01-04-2009",
+      "date": "2009-01-04",
       "active_regimes": ["High_Inflation", "Weak_Growth"],
       "regime_strength": {...},
       "factor_weights": {
@@ -129,7 +129,7 @@ Output (200 OK):
 
 Error (400 Bad Request):
   {
-    "detail": "Invalid date format: 2009-04-01. Expected DD-MM-YYYY"
+    "detail": "Invalid date format: 2009-04-01. Expected YYYY-DD-MM"
   }
 
 Error (500 Internal Server Error):
@@ -144,7 +144,7 @@ Executes Pass 5: Investor Allocation (depends on Pass 4)
 
 Input:
   {
-    "target_date": "DD-MM-YYYY",           (required)
+    "target_date": "YYYY-DD-MM",           (required)
     "investor_type": "Conservative|Balanced|Aggressive"  (required)
   }
 
@@ -152,7 +152,7 @@ Output (200 OK):
   {
     "status": "success",
     "stage": "pass5",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 5 (Investor Allocation) completed successfully...",
     "data": {
@@ -174,7 +174,7 @@ Executes Pass 6: Portfolio Construction (depends on Pass 5)
 
 Input:
   {
-    "target_date": "DD-MM-YYYY",           (required)
+    "target_date": "YYYY-DD-MM",           (required)
     "investor_type": "Conservative|Balanced|Aggressive"  (required)
   }
 
@@ -182,7 +182,7 @@ Output (200 OK):
   {
     "status": "success",
     "stage": "pass6",
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced",
     "message": "Pass 6 (Portfolio Construction) completed successfully...",
     "data": {
@@ -230,7 +230,7 @@ import requests
 import json
 
 BASE_URL = "http://localhost:10000"
-DATE = "01-04-2009"
+DATE = "2009-01-04"
 
 # Step 1: Regime Mapping
 response1 = requests.post(
@@ -268,13 +268,13 @@ EXAMPLE 2: Using curl
 # Start regime mapping
 curl -X POST http://localhost:10000/recommend/start \
   -H "Content-Type: application/json" \
-  -d '{"target_date": "01-04-2009"}'
+  -d '{"target_date": "2009-01-04"}'
 
 # Run investor allocation
 curl -X POST http://localhost:10000/recommend/investor \
   -H "Content-Type: application/json" \
   -d '{
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }'
 
@@ -282,7 +282,7 @@ curl -X POST http://localhost:10000/recommend/investor \
 curl -X POST http://localhost:10000/recommend/final \
   -H "Content-Type: application/json" \
   -d '{
-    "target_date": "01-04-2009",
+    "target_date": "2009-01-04",
     "investor_type": "Balanced"
   }'
 
@@ -300,7 +300,7 @@ response = requests.post(
 if response.status_code != 200:
     error = response.json()
     print(f"Error: {error['detail']}")
-    # Output: "Error: Invalid date format: invalid-date. Expected DD-MM-YYYY"
+    # Output: "Error: Invalid date format: invalid-date. Expected YYYY-DD-MM"
 """
 
 # ============================================================================
@@ -349,7 +349,7 @@ SERVICES/VALIDATION.PY
 Functions:
 
   validate_date_format(date_str: str) -> bool
-    Checks if date is in DD-MM-YYYY format
+    Checks if date is in YYYY-DD-MM format
     Returns True/False
   
   validate_investor_type(investor_type: str) -> bool
@@ -400,7 +400,7 @@ DEBUGGING:
 
 2. Run Pass scripts manually to test:
    cd "Pass 4 - Regime Mapping/outputs"
-   python pass4_regime_mapper.py --target-date 01-04-2009
+   python pass4_regime_mapper.py --target-date 2009-01-04
 
 3. Verify output files exist after each stage:
    Pass 4: Pass 4 - Regime Mapping/outputs/factor_tilt_latest.json

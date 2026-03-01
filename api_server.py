@@ -51,7 +51,7 @@ PASS6_DATA_PATH = BASE_DIR / "Pass 6 - Portfolio Construction" / "outputs" / "po
 # Pydantic models for request/response
 class PortfolioRequest(BaseModel):
     """Request model for portfolio recommendation"""
-    target_date: str = Field(..., description="Target date from Pass 4 (e.g., '01-04-2009')")
+    target_date: str = Field(..., description="Target date from Pass 4 (e.g., '2009-01-04')")
     investor_type: str = Field(
         ...,
         description="Investor type from Pass 5 (Conservative, Balanced, or Aggressive)"
@@ -117,9 +117,9 @@ def get_available_dates() -> list[str]:
     # fallback to single-file behavior
     try:
         data = load_json_file(PASS4_DATA_PATH)
-        return [data.get("date", "01-04-2009")]
+        return [data.get("date", "2009-01-04")]
     except Exception:
-        return ["01-04-2009"]
+        return ["2009-01-04"]
 
 
 def get_pass4_by_date(target_date: Optional[str]) -> dict:
@@ -133,22 +133,20 @@ def get_pass4_by_date(target_date: Optional[str]) -> dict:
         mapper_script = PASS4_DIR / "pass4_regime_mapper.py"
         if mapper_script.exists():
             try:
-                # Normalize incoming date formats (accept DD/MM/YYYY or DD-MM-YYYY or YYYY-MM-DD)
+                # Normalize incoming date assuming YYYY-DD-MM (slash or dash allowed)
                 td = target_date.replace('/', '-')
                 parsed_date = None
-                for fmt in ("%d-%m-%Y", "%Y-%d-%m", "%Y-%m-%d"):
-                    try:
-                        parsed_date = datetime.strptime(td, fmt)
-                        break
-                    except Exception:
-                        continue
+                try:
+                    parsed_date = datetime.strptime(td, "%Y-%d-%m")
+                except Exception:
+                    parsed_date = None
 
                 if not parsed_date:
                     # If parse failed, return clear error to client
-                    raise ValueError(f"target_date '{target_date}' is not in a supported format (expected DD-MM-YYYY or YYYY-MM-DD)")
+                    raise ValueError(f"target_date '{target_date}' is not in a supported format (expected YYYY-DD-MM)")
 
-                # Ensure mapper receives DD-MM-YYYY
-                mapper_date_arg = parsed_date.strftime("%d-%m-%Y")
+                # Ensure mapper receives YYYY-DD-MM (new standard)
+                mapper_date_arg = parsed_date.strftime("%Y-%d-%m")
 
                 # Run the Pass 4 mapper with the normalized date
                 subprocess.run([
@@ -204,7 +202,7 @@ async def root():
             "recommend": "/recommend"
         },
         "example_request": {
-            "target_date": "01-04-2009",
+            "target_date": "2009-01-04",
             "investor_type": "Balanced"
         }
     }

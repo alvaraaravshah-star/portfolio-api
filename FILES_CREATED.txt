@@ -190,7 +190,7 @@ Project Root/
 5. TRY AN ENDPOINT
    curl -X POST http://localhost:10000/recommend/start \
      -H "Content-Type: application/json" \
-     -d '{"target_date": "01-04-2009"}'
+     -d '{"target_date": "2009-01-04"}'
 
 
 ================================================================================

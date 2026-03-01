@@ -87,26 +87,27 @@ REGIME_FACTOR_MAP, MAPPING_SOURCE = load_regime_factor_map()
 def load_macro_state(target_date=None):
     """
     Load macro_data_scored.csv.
-    If target_date (DD-MM-YYYY) is provided, return that date.
+    If target_date (YYYY-DD-MM) is provided, return that date.
     Otherwise, return latest.
     """
     df = pd.read_csv(MACRO_DATA_PATH)
-    df['DATE'] = pd.to_datetime(df['DATE'], format='%Y-%m-%d')
+    # dates in CSV now encoded as YYYY-DD-MM
+    df['DATE'] = pd.to_datetime(df['DATE'], format='%Y-%d-%m')
 
     if target_date:
-        # Parse user input as DD-MM-YYYY and convert to date for comparison
-        target_date = pd.to_datetime(target_date, format='%d-%m-%Y')
+        # Parse user input as YYYY-DD-MM and convert to date for comparison
+        target_date = pd.to_datetime(target_date, format='%Y-%d-%m')
         row = df[df['DATE'].dt.date == target_date.date()]
 
         if row.empty:
-            raise ValueError(f"No data for date {target_date.strftime('%d-%m-%Y')}")
+            raise ValueError(f"No data for date {target_date.strftime('%Y-%d-%m')}")
         
         selected_row = row.iloc[0]
     else:
         selected_row = df.sort_values('DATE').iloc[-1]
 
     return {
-        "DATE": selected_row['DATE'].strftime("%d-%m-%Y"),
+        "DATE": selected_row['DATE'].strftime("%Y-%d-%m"),
         "Inflation_Score": selected_row['Inflation_Score'],
         "Growth_Score": selected_row['Growth_Score'],
         "Macro_Score": selected_row['Macro_Score']
@@ -246,7 +247,7 @@ if __name__ == "__main__":
     print("="*70)
     
     # STEP 4: Load macro state (with optional date override)
-    target_date = sys.argv[1] if len(sys.argv) > 1 else input("\nEnter target date (DD-MM-YYYY) or press Enter for latest: ").strip() or None
+    target_date = sys.argv[1] if len(sys.argv) > 1 else input("\nEnter target date (YYYY-DD-MM) or press Enter for latest: ").strip() or None
     macro_state = load_macro_state(target_date)
     print(f"\n[STEP 4] Latest Macro State:")
     print(f"  DATE:             {macro_state['DATE']}")
