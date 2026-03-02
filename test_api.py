@@ -92,23 +92,16 @@ def test_root():
 
 def test_pipeline_docs():
     """Test /api/pipeline endpoint."""
-    print_section("Pipeline Documentation")
-    
-    try:
-        response = requests.get(f"{BASE_URL}/api/pipeline")
-        passed = response.status_code == 200
-        data = response.json()
-        
-        stages = len(data.get('stages', []))
-        print_test(
-            "GET /api/pipeline",
-            passed,
-            f"Status: {response.status_code}, Stages: {stages}"
-        )
-        return passed
-    except Exception as e:
-        print_test("GET /api/pipeline", False, str(e))
-        return False
+    # the cleaned API no longer exposes /api/pipeline; expect 404
+    print_section("Pipeline Documentation (deprecated)")
+    response = requests.get(f"{BASE_URL}/api/pipeline")
+    passed = response.status_code == 404
+    print_test(
+        "GET /api/pipeline returns 404",
+        passed,
+        f"Status: {response.status_code}"
+    )
+    return passed
 
 
 def test_pass4(target_date: str = TEST_DATE):
@@ -317,7 +310,7 @@ def main():
     except requests.exceptions.ConnectionError:
         print("\n❌ ERROR: Cannot connect to API server")
         print(f"   Make sure the server is running on {BASE_URL}")
-        print("   Run: python api_server_refactored.py")
+        print("   Run: python main.py")
         return
     
     # Run tests

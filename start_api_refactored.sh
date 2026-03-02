@@ -72,7 +72,7 @@ required_dirs=(
 )
 
 required_files=(
-    "api_server_refactored.py"
+    "main.py"
     "services/pipeline.py"
     "services/validation.py"
     "routers/recommendations.py"
