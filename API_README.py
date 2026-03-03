@@ -24,8 +24,8 @@ for regime-based portfolio construction.
 1. Install dependencies (if not already done):
    pip install -r requirements.txt
 
-2. Run the refactored API server:
-   python api_server_refactored.py
+2. Run the refactored API server (ASGI entrypoint is ``main.py``):
+  python -m uvicorn main:app --reload --port 10000
    
    Output:
    INFO:     Uvicorn running on http://0.0.0.0:10000
@@ -417,7 +417,7 @@ DEBUGGING:
 
 """
 LOCAL DEVELOPMENT:
-  python api_server_refactored.py
+  python -m uvicorn main:app --reload --port 10000
   Server: http://localhost:10000
 
 PRODUCTION WITH GUNICORN:

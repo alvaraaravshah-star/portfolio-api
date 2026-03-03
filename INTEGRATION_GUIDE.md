@@ -20,7 +20,7 @@ This guide connects them all through a **FastAPI** server with a simple frontend
          │ HTTP requests
          ▼
 ┌─────────────────────────────────────┐
-│   FastAPI Server (api_server.py)    │
+│   FastAPI Server (main.py)          │
 │  ┌─────────────────────────────────┐│
 │  │ /recommend endpoint             ││ Runs Pass 5 + Pass 6 logic
 │  │ /available-dates, etc.          ││
@@ -53,7 +53,7 @@ pydantic==1.10.15
 
 ### 2. Start the API Server
 ```bash
-python3 -m uvicorn api_server:app --reload --port 8000
+python3 -m uvicorn main:app --reload --port 8000
 ```
 
 Expected output:
@@ -112,7 +112,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 COPY . .
 EXPOSE 8000
-CMD ["sh","-c","uvicorn api_server:app --host 0.0.0.0 --port ${PORT:-8000}"]
+  CMD ["sh","-c","uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
 ```
 
 Your `render.yaml` points to it:

@@ -130,6 +130,6 @@ echo ""
 echo -e "${YELLOW}═════════════════════════════════════════════════════${NC}"
 echo ""
 
-# Start the server
+# Start the server using the single FastAPI app in ``main.py``
 cd "$PROJECT_DIR"
-$PYTHON_CMD api_server_refactored.py --port $PORT
+$PYTHON_CMD -m uvicorn main:app --host 0.0.0.0 --port $PORT

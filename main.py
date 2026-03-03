@@ -1,3 +1,15 @@
+"""ASGI entry point for deployment.
+
+This module defines the single FastAPI application instance that
+Render, Docker, and other deployment platforms should import.  The
+start command is typically:
+
+    uvicorn main:app --host 0.0.0.0 --port 10000
+
+Only one :class:`FastAPI` instance should exist in the project; any
+legacy files such as ``api_server.py`` have been removed.
+"""
+
 import logging
 
 from fastapi import FastAPI

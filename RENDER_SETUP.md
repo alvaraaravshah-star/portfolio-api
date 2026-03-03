@@ -86,7 +86,7 @@ For production, upgrade to Starter ($7/month):
 pip install -r requirements.txt
 
 # Run server
-python -m uvicorn api_server:app --reload
+python -m uvicorn main:app --reload
 
 # Test in another terminal
 python api_client.py
