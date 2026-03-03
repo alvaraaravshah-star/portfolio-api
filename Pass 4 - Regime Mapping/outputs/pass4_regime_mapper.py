@@ -7,6 +7,7 @@ import pandas as pd
 import json
 import os
 import sys
+import argparse
 from pathlib import Path
 from datetime import datetime
 
@@ -246,8 +247,25 @@ if __name__ == "__main__":
     print("PASS 4: REGIME MAPPING")
     print("="*70)
     
-    # STEP 4: Load macro state (with optional date override)
-    target_date = sys.argv[1] if len(sys.argv) > 1 else input("\nEnter target date (YYYY-DD-MM) or press Enter for latest: ").strip() or None
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description="Pass 4: Regime Mapping - Convert macro state vector into regime-based factor weights."
+    )
+    parser.add_argument(
+        "--target-date",
+        required=True,
+        type=str,
+        help="Target date in YYYY-MM-DD format (e.g., 2009-01-04)"
+    )
+    args = parser.parse_args()
+    
+    # Validate and convert date
+    try:
+        target_date = pd.to_datetime(args.target_date, format='%Y-%m-%d').strftime('%Y-%m-%d')
+    except ValueError as e:
+        parser.error(f"Invalid date format. Expected YYYY-MM-DD, got '{args.target_date}': {e}")
+    
+    # STEP 4: Load macro state with validated date
     macro_state = load_macro_state(target_date)
     print(f"\n[STEP 4] Latest Macro State:")
     print(f"  DATE:             {macro_state['DATE']}")
