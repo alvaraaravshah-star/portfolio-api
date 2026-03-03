@@ -13,6 +13,7 @@ legacy files such as ``api_server.py`` have been removed.
 import logging
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from routers.recommendations import router as recommend_router
 
@@ -26,6 +27,15 @@ app = FastAPI(
     title="Macro Engine API",
     description="Three‑stage recommendation pipeline (Pass 4/5/6)",
     version="1.0.0",
+)
+
+# Add CORS middleware to handle preflight OPTIONS requests
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for testing; restrict in production
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
 )
 
 # only one router with prefix "/recommend" is included
